@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#111111">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
+
+    <title>Sermon Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="background"></div>
+
+
+    <div class="admin-page">
+
+        <div class="glass admin-box">
+
+            <a href="index.html">
+                ← View Website
+            </a>
+
+            <p class="gold">
+                NEW JERUSALEM CHURCH
+            </p>
+
+            <h1>
+                Sermon Admin Panel
+            </h1>
+
+
+            <!-- =====================================
+                 LOGIN
+                 ===================================== -->
+
+            <div id="loginBox">
+
+                <h2>
+                    Admin Login
+                </h2>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="Admin email"
+                >
+
+                <input
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                >
+
+                <button
+                    type="button"
+                    class="button"
+                    onclick="login()"
+                >
+                    Login
+                </button>
+
+                <p id="loginMessage"></p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================================
+             ADMIN PANEL
+             Hidden until successful login
+             ========================================= -->
+
+        <div
+            id="panel"
+            style="display:none;"
+        >
+
+
+            <!-- =====================================
+                 1. UPCOMING EVENTS
+                 ===================================== -->
+
+            <div class="glass admin-box">
+
+                <section class="admin-section">
+
+                    <h2>
+                        📅 Manage Upcoming Events
+                    </h2>
+
+
+                    <form id="eventForm">
+
+                        <!-- Used when editing -->
+                        <input
+                            type="hidden"
+                            id="eventId"
+                        >
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Event Title
+                            </label>
+
+                            <input
+                                type="text"
+                                id="eventTitle"
+                                placeholder="Example: Church Anniversary"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Event Date
+                            </label>
+
+                            <input
+                                type="date"
+                                id="eventDate"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Event Time
+                            </label>
+
+                            <input
+                                type="text"
+                                id="eventTime"
+                                placeholder="Example: 6:00 PM"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Location
+                            </label>
+
+                            <input
+                                type="text"
+                                id="eventLocation"
+                                placeholder="New Jerusalem Church"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Description
+                            </label>
+
+                            <textarea
+                                id="eventDescription"
+                                rows="4"
+                                placeholder="Event details"
+                            ></textarea>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label>
+                                Event Image URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="eventImage"
+                                placeholder="https://..."
+                            >
+
+                        </div>
+
+
+                        <button
+                            type="submit"
+                            id="eventSubmitButton"
+                            class="button"
+                        >
+                            📅 Add Event
+                        </button>
+
+
+                        <button
+                            type="button"
+                            id="eventCancelButton"
+                            class="button"
+                            style="display:none;"
+                        >
+                            Cancel Edit
+                        </button>
+
+                    </form>
+
+
+                    <p id="eventMessage"></p>
+
+
+                    <!-- Existing events -->
+
+                    <h3>
+                        Existing Upcoming Events
+                    </h3>
+
+                    <div id="adminEventsList">
+
+                        <p>
+                            Loading events...
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 2. ADD NEW SERMON
+                 ===================================== -->
+
+            <div class="glass admin-box">
+
+                <section class="admin-section">
+
+                    <h2>
+                        🎙️ Add New Sermon
+                    </h2>
+
+
+                    <label>
+                        Sermon Topic
+                    </label>
+
+                    <input
+                        id="topic"
+                        type="text"
+                        placeholder="Enter sermon topic"
+                    >
+
+
+                    <label>
+                        Speaker
+                    </label>
+
+                    <input
+                        id="speaker"
+                        type="text"
+                        placeholder="Pastor name"
+                    >
+
+
+                    <label>
+                        Date
+                    </label>
+
+                    <input
+                        id="date"
+                        type="date"
+                    >
+
+
+                    <label>
+                        Sermon Image
+                    </label>
+
+                    <input
+                        id="image"
+                        type="file"
+                        accept="image/*"
+                    >
+
+
+                    <label>
+                        Audio MP3
+                    </label>
+
+                    <input
+                        id="audio"
+                        type="file"
+                        accept="audio/mpeg,audio/mp3"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="button"
+                        onclick="addSermon()"
+                    >
+                        Publish Sermon
+                    </button>
+
+
+                    <p id="message"></p>
+
+                </section>
+
+            </div>
+
+
+
+            <!-- =====================================
+                 3. PUBLISHED SERMONS
+                 ===================================== -->
+
+            <div class="glass admin-box">
+
+                <section class="admin-section">
+
+                    <h2>
+                        🎧 Published Sermons
+                    </h2>
+
+
+                    <div id="adminList">
+
+                        <p>
+                            Loading sermons...
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================================
+         SCRIPTS
+         ========================================= -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="config.js"></script>
+
+    <script src="admin.js"></script>
+
+
+<script>if ("serviceWorker" in navigator) window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.error));</script>
+</body>
+
+</html>
